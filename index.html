@@ -1,147 +1,351 @@
 <!DOCTYPE html>
 <html lang="pt">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ANGOLA MUSIC AI</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 
-<title>Angola Music AI</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Poppins', sans-serif;
+    }
 
-<style>
+    body {
+      background: #050816;
+      color: white;
+      overflow-x: hidden;
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 30px;
+      position: relative;
+    }
 
-body{
-margin:0;
-padding:0;
-background:#0f0f0f;
-font-family:Arial;
-color:white;
-}
+    body::before {
+      content: "";
+      position: absolute;
+      width: 600px;
+      height: 600px;
+      background: rgba(0, 255, 255, 0.12);
+      filter: blur(120px);
+      top: -200px;
+      left: -200px;
+      z-index: 0;
+    }
 
-header{
-padding:20px;
-display:flex;
-justify-content:space-between;
-align-items:center;
-background:#111;
-border-bottom:1px solid #222;
-}
+    body::after {
+      content: "";
+      position: absolute;
+      width: 500px;
+      height: 500px;
+      background: rgba(255, 0, 255, 0.12);
+      filter: blur(120px);
+      bottom: -200px;
+      right: -200px;
+      z-index: 0;
+    }
 
-.logo{
-font-size:24px;
-font-weight:bold;
-color:#00ff88;
-}
+    .container {
+      width: 100%;
+      max-width: 900px;
+      background: rgba(255,255,255,0.05);
+      border: 1px solid rgba(255,255,255,0.1);
+      backdrop-filter: blur(18px);
+      border-radius: 30px;
+      padding: 50px;
+      position: relative;
+      z-index: 1;
+      box-shadow: 0 0 40px rgba(0,255,255,0.1);
+    }
 
-nav a{
-color:white;
-text-decoration:none;
-margin-left:20px;
-}
+    .logo {
+      font-size: 50px;
+      font-weight: 700;
+      text-align: center;
+      margin-bottom: 10px;
+      background: linear-gradient(90deg, #00ffff, #ff00ff);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
 
-.hero{
-text-align:center;
-padding:80px 20px;
-}
+    .subtitle {
+      text-align: center;
+      color: #cfcfcf;
+      margin-bottom: 40px;
+      font-size: 18px;
+    }
 
-.hero h1{
-font-size:50px;
-margin-bottom:20px;
-}
+    .card {
+      background: rgba(255,255,255,0.04);
+      border: 1px solid rgba(255,255,255,0.08);
+      border-radius: 25px;
+      padding: 30px;
+    }
 
-.hero p{
-font-size:20px;
-color:#ccc;
-max-width:700px;
-margin:auto;
-}
+    label {
+      display: block;
+      margin-bottom: 12px;
+      font-size: 17px;
+      font-weight: 500;
+    }
 
-.btn{
-display:inline-block;
-margin-top:30px;
-padding:15px 35px;
-background:#00ff88;
-color:black;
-text-decoration:none;
-font-weight:bold;
-border-radius:10px;
-}
+    textarea {
+      width: 100%;
+      height: 140px;
+      border-radius: 18px;
+      border: none;
+      padding: 20px;
+      font-size: 16px;
+      resize: none;
+      outline: none;
+      background: rgba(255,255,255,0.08);
+      color: white;
+      margin-bottom: 25px;
+    }
 
-.features{
-display:grid;
-grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
-gap:20px;
-padding:50px;
-}
+    textarea::placeholder {
+      color: #bbbbbb;
+    }
 
-.card{
-background:#181818;
-padding:30px;
-border-radius:15px;
-border:1px solid #222;
-}
+    .generate-btn {
+      width: 100%;
+      padding: 18px;
+      border: none;
+      border-radius: 18px;
+      background: linear-gradient(90deg, #00ffff, #ff00ff);
+      color: white;
+      font-size: 18px;
+      font-weight: 700;
+      cursor: pointer;
+      transition: 0.3s;
+      box-shadow: 0 0 25px rgba(0,255,255,0.4);
+    }
 
-.card h3{
-color:#00ff88;
-}
+    .generate-btn:hover {
+      transform: scale(1.03);
+      box-shadow: 0 0 35px rgba(255,0,255,0.5);
+    }
 
-footer{
-text-align:center;
-padding:30px;
-color:#777;
-}
+    .loading {
+      margin-top: 25px;
+      display: none;
+      text-align: center;
+    }
 
-</style>
+    .loading p {
+      margin-top: 10px;
+      color: #d4d4d4;
+    }
+
+    .bar {
+      width: 100%;
+      height: 12px;
+      background: rgba(255,255,255,0.08);
+      border-radius: 20px;
+      overflow: hidden;
+      margin-top: 15px;
+    }
+
+    .progress {
+      width: 0%;
+      height: 100%;
+      background: linear-gradient(90deg, #00ffff, #ff00ff);
+      animation: load 4s linear forwards;
+    }
+
+    @keyframes load {
+      from {
+        width: 0%;
+      }
+      to {
+        width: 100%;
+      }
+    }
+
+    .result {
+      display: none;
+      margin-top: 35px;
+      background: rgba(255,255,255,0.04);
+      border-radius: 25px;
+      padding: 30px;
+      border: 1px solid rgba(255,255,255,0.08);
+    }
+
+    .result h2 {
+      margin-bottom: 20px;
+      color: #00ffff;
+    }
+
+    .lyrics {
+      white-space: pre-line;
+      line-height: 1.8;
+      color: #ededed;
+      margin-bottom: 25px;
+    }
+
+    .player {
+      width: 100%;
+      background: rgba(255,255,255,0.08);
+      padding: 18px;
+      border-radius: 18px;
+      text-align: center;
+      margin-bottom: 20px;
+    }
+
+    .download-btn {
+      display: inline-block;
+      padding: 14px 25px;
+      border-radius: 15px;
+      background: linear-gradient(90deg, #00ffff, #ff00ff);
+      color: white;
+      text-decoration: none;
+      font-weight: 600;
+    }
+
+    .footer {
+      margin-top: 35px;
+      text-align: center;
+      color: #aaaaaa;
+      font-size: 14px;
+    }
+
+    @media(max-width: 768px) {
+      .container {
+        padding: 30px;
+      }
+
+      .logo {
+        font-size: 36px;
+      }
+    }
+  </style>
 </head>
-
 <body>
 
-<header>
-<div class="logo">Angola Music AI</div>
+  <div class="container">
 
-<nav>
-<a href="#">Início</a>
-<a href="#">Criar Música</a>
-<a href="#">Planos</a>
-<a href="#">Login</a>
-</nav>
-</header>
+    <div class="logo">ANGOLA MUSIC AI</div>
 
-<section class="hero">
+    <div class="subtitle">
+      Crie músicas africanas com Inteligência Artificial.
+    </div>
 
-<h1>Crie músicas com Inteligência Artificial</h1>
+    <div class="card">
 
-<p>
-A primeira plataforma africana de criação musical com IA.
-Gere letras, melodias e vozes automaticamente.
-</p>
+      <label>Descreva a música que deseja criar:</label>
 
-<a class="btn" href="#">
-Começar Agora
-</a>
+      <textarea id="prompt" placeholder="Exemplo: Cria Afro Beat romântico em português sobre Luanda..."></textarea>
 
-</section>
+      <button class="generate-btn" onclick="generateMusic()">
+        GERAR MÚSICA
+      </button>
 
-<section class="features">
+      <div class="loading" id="loading">
+        <p id="loadingText">Iniciando IA...</p>
 
-<div class="card">
-<h3>Gerar Letras</h3>
-<p>Crie letras automáticas em segundos.</p>
-</div>
+        <div class="bar">
+          <div class="progress"></div>
+        </div>
+      </div>
 
-<div class="card">
-<h3>Melodias IA</h3>
-<p>Produza instrumentais com inteligência artificial.</p>
-</div>
+      <div class="result" id="result">
 
-<div class="card">
-<h3>Vozes Africanas</h3>
-<p>Futuramente com vozes africanas realistas.</p>
-</div>
+        <h2>Música Gerada</h2>
 
-</section>
+        <div class="lyrics" id="lyrics">
+        </div>
 
-<footer>
-© 2026 Angola Music AI - Todos direitos reservados
-</footer>
+        <div class="player">
+          ▶️ Player de música IA (simulação)
+        </div>
+
+        <a href="#" class="download-btn">
+          DOWNLOAD MP3
+        </a>
+
+      </div>
+
+    </div>
+
+    <div class="footer">
+      © 2026 ANGOLA MUSIC AI — Plataforma Africana de Música com IA
+    </div>
+
+  </div>
+
+  <script>
+
+    function generateMusic() {
+
+      const prompt = document.getElementById('prompt').value;
+      const loading = document.getElementById('loading');
+      const result = document.getElementById('result');
+      const lyrics = document.getElementById('lyrics');
+      const loadingText = document.getElementById('loadingText');
+
+      if(prompt.trim() === '') {
+        alert('Escreva uma descrição da música.');
+        return;
+      }
+
+      loading.style.display = 'block';
+      result.style.display = 'none';
+
+      const messages = [
+        'Gerando letra africana...',
+        'Criando melodia IA...',
+        'Produzindo voz futurista...',
+        'Finalizando música...'
+      ];
+
+      let index = 0;
+
+      const interval = setInterval(() => {
+        if(index < messages.length) {
+          loadingText.innerText = messages[index];
+          index++;
+        }
+      }, 1000);
+
+      setTimeout(() => {
+
+        clearInterval(interval);
+
+        loading.style.display = 'none';
+        result.style.display = 'block';
+
+        lyrics.innerText = `
+🎵 TÍTULO: Noites de Luanda
+
+Verso 1:
+Nas ruas quentes da cidade
+O som bate forte no coração
+Luzes brilham na madrugada
+Angola vibra nessa canção
+
+Refrão:
+Dança comigo até o amanhecer
+Afro Beat faz o povo mexer
+Luanda inteira vai cantar
+ANGOLA MUSIC AI no ar
+
+Verso 2:
+Kuduro, semba e emoção
+A nova era começou
+IA criando inspiração
+O futuro finalmente chegou
+        `;
+
+      }, 5000);
+
+    }
+
+  </script>
 
 </body>
 </html>
