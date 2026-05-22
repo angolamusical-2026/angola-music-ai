@@ -272,21 +272,41 @@ loading.style.display = 'block';
 
 result.style.display = 'none';
 
-const generatedLyrics = `
-🎵 TÍTULO: Noites de Luanda
+const openaiResponse = await fetch(
+'https://api.openai.com/v1/chat/completions',
+{
+method:'POST',
 
-${prompt}
+headers:{
+'Content-Type':'application/json',
+'Authorization':'Bearer SUA_CHAVE_OPENAI'
+},
 
-Na ilha dançamos devagar,
-Luzes brilham sobre o mar,
-Teu olhar faz o tempo parar,
-Luanda inteira vai cantar.
+body:JSON.stringify({
 
-No semba do coração,
-Batidas levam emoção,
-Afro Beat na vibração,
-És minha inspiração.
-`;
+model:'gpt-4.1-mini',
+
+messages:[
+{
+role:'system',
+content:'Você é uma IA especialista em criar letras musicais africanas.'
+},
+{
+role:'user',
+content:`Cria uma letra musical africana baseada nisso: ${prompt}`
+}
+]
+
+})
+
+}
+);
+
+const openaiData =
+await openaiResponse.json();
+
+const generatedLyrics =
+openaiData.choices[0].message.content;
 
 setTimeout(async ()=>{
 
