@@ -241,6 +241,21 @@
 
       <textarea id="prompt" placeholder="Exemplo: Cria Afro Beat romântico em português sobre Luanda..."></textarea>
 
+      <label>Carregue a sua voz para clonagem por IA:</label>
+
+       <input
+  type="file"
+  id="voiceUpload"
+  accept="audio/*"
+  style="
+    width:100%;
+    padding:15px;
+    border-radius:15px;
+    margin-bottom:20px;
+    background:rgba(255,255,255,0.08);
+    color:white;
+  "
+>
       <button class="generate-btn" onclick="generateMusic()">
         GERAR MÚSICA
       </button>
