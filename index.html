@@ -275,9 +275,8 @@
         <div class="lyrics" id="lyrics">
         </div>
 
-        <div class="player">
-          ▶️ Player de música IA (simulação)
-        </div>
+        <audio id="audioPlayer" controls style="width:100%; margin-bottom:20px;">
+        </audio>
 
         <a href="#" class="download-btn">
           DOWNLOAD MP3
@@ -335,6 +334,30 @@
         result.style.display = 'block';
 
         lyrics.innerText = `
+        const audioPlayer = document.getElementById('audioPlayer');
+
+const voiceResponse = await fetch(
+  'https://api.elevenlabs.io/v1/text-to-speech/EXAVITQu4vr4xnSDxMaL',
+  {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      'xi-api-key': 'sk_4ee442e0917ecb5979f841ee3afe74b10c4f0eda244c5fa1'
+    },
+    body: JSON.stringify({
+      text: generatedLyrics,
+      model_id: 'eleven_multilingual_v2'
+    })
+  }
+);
+
+const audioBlob = await voiceResponse.blob();
+
+const audioUrl = URL.createObjectURL(audioBlob);
+
+audioPlayer.src = audioUrl;
+
+audioPlayer.play();
 🎵 TÍTULO: Noites de Luanda
 
 Verso 1:
