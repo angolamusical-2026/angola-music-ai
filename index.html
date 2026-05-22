@@ -1,92 +1,120 @@
 <!DOCTYPE html>
 <html lang="pt">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 
 <title>Angola Music AI</title>
 
 <style>
 
-body{
+*{
 margin:0;
 padding:0;
-background:#0f0f0f;
-font-family:Arial;
-color:white;
+box-sizing:border-box;
+font-family:Arial, sans-serif;
 }
 
-header{
-padding:20px;
+body{
+background:#050816;
+color:white;
+height:100vh;
 display:flex;
-justify-content:space-between;
+justify-content:center;
 align-items:center;
-background:#111;
-border-bottom:1px solid #222;
+overflow:hidden;
+}
+
+.bg{
+position:absolute;
+width:100%;
+height:100%;
+background:
+radial-gradient(circle at top,#1e3a8a,transparent 40%),
+radial-gradient(circle at bottom,#7c3aed,transparent 40%);
+filter:blur(100px);
+z-index:-1;
+}
+
+.container{
+width:90%;
+max-width:700px;
+background:rgba(255,255,255,0.05);
+border:1px solid rgba(255,255,255,0.1);
+backdrop-filter:blur(15px);
+padding:40px;
+border-radius:25px;
+text-align:center;
+box-shadow:0 0 40px rgba(0,0,0,0.5);
 }
 
 .logo{
-font-size:24px;
+font-size:42px;
 font-weight:bold;
-color:#00ff88;
+margin-bottom:15px;
+background:linear-gradient(90deg,#00f5ff,#8b5cf6);
+-webkit-background-clip:text;
+-webkit-text-fill-color:transparent;
 }
 
-nav a{
+.subtitle{
+color:#cbd5e1;
+margin-bottom:30px;
+font-size:18px;
+}
+
+textarea{
+width:100%;
+height:140px;
+padding:20px;
+border:none;
+outline:none;
+resize:none;
+border-radius:15px;
+background:#0f172a;
 color:white;
-text-decoration:none;
-margin-left:20px;
-}
-
-.hero{
-text-align:center;
-padding:80px 20px;
-}
-
-.hero h1{
-font-size:50px;
+font-size:16px;
 margin-bottom:20px;
 }
 
-.hero p{
-font-size:20px;
-color:#ccc;
-max-width:700px;
-margin:auto;
-}
-
-.btn{
-display:inline-block;
-margin-top:30px;
-padding:15px 35px;
-background:#00ff88;
-color:black;
-text-decoration:none;
-font-weight:bold;
-border-radius:10px;
-}
-
-.features{
-display:grid;
-grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
-gap:20px;
-padding:50px;
-}
-
-.card{
-background:#181818;
-padding:30px;
+button{
+background:linear-gradient(90deg,#06b6d4,#8b5cf6);
+border:none;
+padding:16px 35px;
+font-size:18px;
 border-radius:15px;
-border:1px solid #222;
+cursor:pointer;
+color:white;
+font-weight:bold;
+transition:0.3s;
 }
 
-.card h3{
-color:#00ff88;
+button:hover{
+transform:scale(1.05);
+box-shadow:0 0 25px #8b5cf6;
 }
 
-footer{
-text-align:center;
-padding:30px;
-color:#777;
+.result{
+margin-top:30px;
+padding:20px;
+border-radius:15px;
+background:#111827;
+display:none;
+text-align:left;
+line-height:1.7;
+}
+
+.loading{
+margin-top:20px;
+display:none;
+font-size:18px;
+color:#38bdf8;
+}
+
+.footer{
+margin-top:25px;
+font-size:14px;
+color:#94a3b8;
 }
 
 </style>
@@ -94,54 +122,85 @@ color:#777;
 
 <body>
 
-<header>
-<div class="logo">Angola Music AI</div>
+<div class="bg"></div>
 
-<nav>
-<a href="#">Início</a>
-<a href="#">Criar Música</a>
-<a href="#">Planos</a>
-<a href="#">Login</a>
-</nav>
-</header>
+<div class="container">
 
-<section class="hero">
+<div class="logo">ANGOLA MUSIC AI</div>
 
-<h1>Crie músicas com Inteligência Artificial</h1>
-
-<p>
-A primeira plataforma africana de criação musical com IA.
-Gere letras, melodias e vozes automaticamente.
-</p>
-
-<a class="btn" href="#">
-Começar Agora
-</a>
-
-</section>
-
-<section class="features">
-
-<div class="card">
-<h3>Gerar Letras</h3>
-<p>Crie letras automáticas em segundos.</p>
+<div class="subtitle">
+Crie músicas africanas com Inteligência Artificial
 </div>
 
-<div class="card">
-<h3>Melodias IA</h3>
-<p>Produza instrumentais com inteligência artificial.</p>
+<textarea id="prompt" placeholder="Digite o estilo da música...
+Ex: Afro Beat romântico sobre Luanda"></textarea>
+
+<button onclick="gerarMusica()">
+🎵 Gerar Música
+</button>
+
+<div class="loading" id="loading">
+Gerando música com IA...
 </div>
 
-<div class="card">
-<h3>Vozes Africanas</h3>
-<p>Futuramente com vozes africanas realistas.</p>
+<div class="result" id="resultado"></div>
+
+<div class="footer">
+Powered by Angola Music AI
 </div>
 
-</section>
+</div>
 
-<footer>
-© 2026 Angola Music AI - Todos direitos reservados
-</footer>
+<script>
+
+function gerarMusica(){
+
+const prompt = document.getElementById("prompt").value;
+const loading = document.getElementById("loading");
+const resultado = document.getElementById("resultado");
+
+if(prompt === ""){
+alert("Digite algo primeiro.");
+return;
+}
+
+loading.style.display = "block";
+resultado.style.display = "none";
+
+setTimeout(() => {
+
+loading.style.display = "none";
+
+resultado.style.display = "block";
+
+resultado.innerHTML = `
+<h2>🎶 Música Gerada</h2>
+
+<br>
+
+<b>Estilo:</b> ${prompt}
+
+<br><br>
+
+<b>Letra:</b>
+
+<br><br>
+
+Na noite de Luanda eu vou cantar,
+Com batidas quentes para dançar.
+Angola vibra no coração,
+Música AI é revolução.
+
+<br><br>
+
+🔥 Voz, melodia e instrumental serão adicionados em breve.
+`;
+
+}, 3000);
+
+}
+
+</script>
 
 </body>
 </html>
