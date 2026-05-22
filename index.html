@@ -294,79 +294,82 @@
 
   <script>
 
-     async function generateMusic() {
+     <script>
 
-      const prompt = document.getElementById('prompt').value;
-      const loading = document.getElementById('loading');
-      const result = document.getElementById('result');
-      const lyrics = document.getElementById('lyrics');
-      const loadingText = document.getElementById('loadingText');
+async function generateMusic() {
 
-      if(prompt.trim() === '') {
-        alert('Escreva uma descrição da música.');
-        return;
-      }
+  const prompt = document.getElementById('prompt').value;
 
-      loading.style.display = 'block';
-      result.style.display = 'none';
+  const loading = document.getElementById('loading');
 
-      const messages = [
-        'Gerando letra africana...',
-        'Criando melodia IA...',
-        'Produzindo voz futurista...',
-        'Finalizando música...'
-      ];
+  const result = document.getElementById('result');
 
-      let index = 0;
+  const lyrics = document.getElementById('lyrics');
 
-      const interval = setInterval(() => {
-        if(index < messages.length) {
-          loadingText.innerText = messages[index];
-          index++;
-        }
-      }, 1000);
+  const audioPlayer = document.getElementById('audioPlayer');
 
-        setTimeout(() => {
-
-        clearInterval(interval);
-
-        loading.style.display = 'none';
-        result.style.display = 'block';
-
-        lyrics.innerText = generatedLyrics;
-        
-        const audioPlayer = document.getElementById('audioPlayer');
-
-const voiceResponse = await fetch(
-  'https://api.elevenlabs.io/v1/text-to-speech/EXAVITQu4vr4xnSDxMaL',
-  {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-      'xi-api-key': 'sk_4ee442e0917ecb5979f841ee3afe74b10c4f0eda244c5fa1'
-    },
-    body: JSON.stringify({
-      text: generatedLyrics,
-      model_id: 'eleven_multilingual_v2'
-    })
+  if(prompt.trim() === '') {
+    alert('Escreva uma descrição da música.');
+    return;
   }
-);
 
-const audioBlob = await voiceResponse.blob();
+  loading.style.display = 'block';
+  result.style.display = 'none';
 
-const audioUrl = URL.createObjectURL(audioBlob);
+  const generatedLyrics = `
+🎵 TÍTULO: Noites de Luanda
 
-audioPlayer.src = audioUrl;
+Na ilha dançamos devagar,
+Luzes brilham sobre o mar,
+Teu olhar faz o tempo parar,
+Luanda inteira vai cantar.
+`;
 
-audioPlayer.play();
+  setTimeout(async () => {
 
-}, 4000);
+    loading.style.display = 'none';
+
+    result.style.display = 'block';
+
+    lyrics.innerText = generatedLyrics;
+
+    try {
+
+      const voiceResponse = await fetch(
+        'https://api.elevenlabs.io/v1/text-to-speech/EXAVITQu4vr4xnSDxMaL',
+        {
+          method: 'POST',
+
+          headers: {
+            'Content-Type': 'application/json',
+            'xi-api-key': 'sk_8fe90f73968004c954ae9d48fdfc7fdf59f7717c03a21fc5'
+          },
+
+          body: JSON.stringify({
+            text: generatedLyrics,
+            model_id: 'eleven_multilingual_v2'
+          })
+        }
+      );
+
+      const audioBlob = await voiceResponse.blob();
+
+      const audioUrl = URL.createObjectURL(audioBlob);
+
+      audioPlayer.src = audioUrl;
+
+      audioPlayer.play();
+
+    } catch(error) {
+
+      console.log(error);
+
+      alert('Erro ao gerar áudio IA.');
+
+    }
+
+  }, 3000);
 
 }
 
-
-
-  </script>
-
-</body>
-</html>
+</script>
