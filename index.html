@@ -333,7 +333,8 @@
         loading.style.display = 'none';
         result.style.display = 'block';
 
-        lyrics.innerText = `
+        lyrics.innerText = generatedLyrics;
+        
         const audioPlayer = document.getElementById('audioPlayer');
 
 const voiceResponse = await fetch(
