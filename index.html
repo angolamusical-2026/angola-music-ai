@@ -1,375 +1,346 @@
+```html
 <!DOCTYPE html>
 <html lang="pt">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>ANGOLA MUSIC AI</title>
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-  <style>
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-      font-family: 'Poppins', sans-serif;
-    }
+<title>ANGOLA MUSIC AI</title>
 
-    body {
-      background: #050816;
-      color: white;
-      overflow-x: hidden;
-      min-height: 100vh;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      padding: 30px;
-      position: relative;
-    }
+<style>
 
-    body::before {
-      content: "";
-      position: absolute;
-      width: 600px;
-      height: 600px;
-      background: rgba(0, 255, 255, 0.12);
-      filter: blur(120px);
-      top: -200px;
-      left: -200px;
-      z-index: 0;
-    }
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:Arial,sans-serif;
+}
 
-    body::after {
-      content: "";
-      position: absolute;
-      width: 500px;
-      height: 500px;
-      background: rgba(255, 0, 255, 0.12);
-      filter: blur(120px);
-      bottom: -200px;
-      right: -200px;
-      z-index: 0;
-    }
+body{
+background:#050816;
+color:white;
+display:flex;
+justify-content:center;
+align-items:center;
+min-height:100vh;
+padding:20px;
+}
 
-    .container {
-      width: 100%;
-      max-width: 900px;
-      background: rgba(255,255,255,0.05);
-      border: 1px solid rgba(255,255,255,0.1);
-      backdrop-filter: blur(18px);
-      border-radius: 30px;
-      padding: 50px;
-      position: relative;
-      z-index: 1;
-      box-shadow: 0 0 40px rgba(0,255,255,0.1);
-    }
+.container{
+width:100%;
+max-width:700px;
+background:rgba(255,255,255,0.05);
+backdrop-filter:blur(12px);
+border-radius:25px;
+padding:30px;
+box-shadow:0 0 30px rgba(0,255,255,0.2);
+}
 
-    .logo {
-      font-size: 50px;
-      font-weight: 700;
-      text-align: center;
-      margin-bottom: 10px;
-      background: linear-gradient(90deg, #00ffff, #ff00ff);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-    }
+.logo{
+font-size:32px;
+font-weight:bold;
+text-align:center;
+margin-bottom:10px;
+color:#00ffff;
+}
 
-    .subtitle {
-      text-align: center;
-      color: #cfcfcf;
-      margin-bottom: 40px;
-      font-size: 18px;
-    }
+.subtitle{
+text-align:center;
+margin-bottom:30px;
+color:#bbbbbb;
+}
 
-    .card {
-      background: rgba(255,255,255,0.04);
-      border: 1px solid rgba(255,255,255,0.08);
-      border-radius: 25px;
-      padding: 30px;
-    }
+.card{
+display:flex;
+flex-direction:column;
+}
 
-    label {
-      display: block;
-      margin-bottom: 12px;
-      font-size: 17px;
-      font-weight: 500;
-    }
+label{
+margin-bottom:10px;
+font-size:18px;
+}
 
-    textarea {
-      width: 100%;
-      height: 140px;
-      border-radius: 18px;
-      border: none;
-      padding: 20px;
-      font-size: 16px;
-      resize: none;
-      outline: none;
-      background: rgba(255,255,255,0.08);
-      color: white;
-      margin-bottom: 25px;
-    }
+textarea{
+width:100%;
+height:150px;
+border:none;
+border-radius:18px;
+padding:20px;
+font-size:16px;
+background:rgba(255,255,255,0.08);
+color:white;
+outline:none;
+margin-bottom:20px;
+resize:none;
+}
 
-    textarea::placeholder {
-      color: #bbbbbb;
-    }
+textarea::placeholder{
+color:#bbbbbb;
+}
 
-    .generate-btn {
-      width: 100%;
-      padding: 18px;
-      border: none;
-      border-radius: 18px;
-      background: linear-gradient(90deg, #00ffff, #ff00ff);
-      color: white;
-      font-size: 18px;
-      font-weight: 700;
-      cursor: pointer;
-      transition: 0.3s;
-      box-shadow: 0 0 25px rgba(0,255,255,0.4);
-    }
+input[type="file"]{
+width:100%;
+padding:15px;
+border-radius:15px;
+margin-bottom:20px;
+background:rgba(255,255,255,0.08);
+color:white;
+}
 
-    .generate-btn:hover {
-      transform: scale(1.03);
-      box-shadow: 0 0 35px rgba(255,0,255,0.5);
-    }
+.generate-btn{
+padding:18px;
+border:none;
+border-radius:18px;
+font-size:18px;
+font-weight:bold;
+background:linear-gradient(90deg,#00ffff,#0066ff);
+color:white;
+cursor:pointer;
+transition:0.3s;
+}
 
-    .loading {
-      margin-top: 25px;
-      display: none;
-      text-align: center;
-    }
+.generate-btn:hover{
+transform:scale(1.03);
+}
 
-    .loading p {
-      margin-top: 10px;
-      color: #d4d4d4;
-    }
+.loading{
+display:none;
+margin-top:25px;
+text-align:center;
+}
 
-    .bar {
-      width: 100%;
-      height: 12px;
-      background: rgba(255,255,255,0.08);
-      border-radius: 20px;
-      overflow: hidden;
-      margin-top: 15px;
-    }
+.bar{
+width:100%;
+height:12px;
+background:rgba(255,255,255,0.1);
+border-radius:20px;
+overflow:hidden;
+margin-top:15px;
+}
 
-    .progress {
-      width: 0%;
-      height: 100%;
-      background: linear-gradient(90deg, #00ffff, #ff00ff);
-      animation: load 4s linear forwards;
-    }
+.progress{
+width:0%;
+height:100%;
+background:#00ffff;
+animation:load 3s linear forwards;
+}
 
-    @keyframes load {
-      from {
-        width: 0%;
-      }
-      to {
-        width: 100%;
-      }
-    }
+@keyframes load{
+0%{width:0%;}
+100%{width:100%;}
+}
 
-    .result {
-      display: none;
-      margin-top: 35px;
-      background: rgba(255,255,255,0.04);
-      border-radius: 25px;
-      padding: 30px;
-      border: 1px solid rgba(255,255,255,0.08);
-    }
+.result{
+display:none;
+margin-top:30px;
+}
 
-    .result h2 {
-      margin-bottom: 20px;
-      color: #00ffff;
-    }
+.lyrics{
+white-space:pre-line;
+background:rgba(255,255,255,0.05);
+padding:20px;
+border-radius:18px;
+margin-bottom:20px;
+line-height:1.7;
+}
 
-    .lyrics {
-      white-space: pre-line;
-      line-height: 1.8;
-      color: #ededed;
-      margin-bottom: 25px;
-    }
+audio{
+width:100%;
+margin-bottom:20px;
+}
 
-    .player {
-      width: 100%;
-      background: rgba(255,255,255,0.08);
-      padding: 18px;
-      border-radius: 18px;
-      text-align: center;
-      margin-bottom: 20px;
-    }
+.footer{
+margin-top:25px;
+text-align:center;
+font-size:14px;
+color:#999999;
+}
 
-    .download-btn {
-      display: inline-block;
-      padding: 14px 25px;
-      border-radius: 15px;
-      background: linear-gradient(90deg, #00ffff, #ff00ff);
-      color: white;
-      text-decoration: none;
-      font-weight: 600;
-    }
-
-    .footer {
-      margin-top: 35px;
-      text-align: center;
-      color: #aaaaaa;
-      font-size: 14px;
-    }
-
-    @media(max-width: 768px) {
-      .container {
-        padding: 30px;
-      }
-
-      .logo {
-        font-size: 36px;
-      }
-    }
-  </style>
+</style>
 </head>
+
 <body>
 
-  <div class="container">
+<div class="container">
 
-    <div class="logo">ANGOLA MUSIC AI</div>
+<div class="logo">
+ANGOLA MUSIC AI
+</div>
 
-    <div class="subtitle">
-      Crie músicas africanas com Inteligência Artificial.
-    </div>
+<div class="subtitle">
+Crie músicas africanas com Inteligência Artificial.
+</div>
 
-    <div class="card">
+<div class="card">
 
-      <label>Descreva a música que deseja criar:</label>
+<label>
+Descreva a música:
+</label>
 
-      <textarea id="prompt" placeholder="Exemplo: Cria Afro Beat romântico em português sobre Luanda..."></textarea>
+<textarea
+id="prompt"
+placeholder="Exemplo: Cria Afro Beat romântico sobre Luanda..."
+></textarea>
 
-      <label>Carregue a sua voz para clonagem por IA:</label>
+<label>
+Carregue a sua voz para clonagem IA:
+</label>
 
-       <input
-  type="file"
-  id="voiceUpload"
-  accept="audio/*"
-  style="
-    width:100%;
-    padding:15px;
-    border-radius:15px;
-    margin-bottom:20px;
-    background:rgba(255,255,255,0.08);
-    color:white;
-  "
- >
-      <button class="generate-btn" onclick="generateMusic()">
-        GERAR MÚSICA
-      </button>
+<input
+type="file"
+id="voiceUpload"
+accept="audio/*"
+>
 
-      <div class="loading" id="loading">
-        <p id="loadingText">Iniciando IA...</p>
+<button
+class="generate-btn"
+onclick="generateMusic()"
+>
+GERAR MÚSICA
+</button>
 
-        <div class="bar">
-          <div class="progress"></div>
-        </div>
-      </div>
+<div
+class="loading"
+id="loading"
+>
 
-      <div class="result" id="result">
+<p id="loadingText">
+Gerando música IA...
+</p>
 
-        <h2>Música Gerada</h2>
+<div class="bar">
+<div class="progress"></div>
+</div>
 
-        <div class="lyrics" id="lyrics">
-        </div>
+</div>
 
-        <audio id="audioPlayer" controls style="width:100%; margin-bottom:20px;">
-        </audio>
+<div
+class="result"
+id="result"
+>
 
-        <a href="#" class="download-btn">
-          DOWNLOAD MP3
-        </a>
+<h2>Música Gerada</h2>
 
-      </div>
+<div
+class="lyrics"
+id="lyrics"
+></div>
 
-    </div>
+<audio
+id="audioPlayer"
+controls
+></audio>
 
-    <div class="footer">
-      © 2026 ANGOLA MUSIC AI — Plataforma Africana de Música com IA
-    </div>
+</div>
 
-  </div>
+</div>
 
-  <script>
+<div class="footer">
+© 2026 ANGOLA MUSIC AI
+</div>
 
-     <script>
+</div>
+
+<script>
 
 async function generateMusic() {
 
-  const prompt = document.getElementById('prompt').value;
+const prompt =
+document.getElementById('prompt').value;
 
-  const loading = document.getElementById('loading');
+const loading =
+document.getElementById('loading');
 
-  const result = document.getElementById('result');
+const result =
+document.getElementById('result');
 
-  const lyrics = document.getElementById('lyrics');
+const lyrics =
+document.getElementById('lyrics');
 
-  const audioPlayer = document.getElementById('audioPlayer');
+const audioPlayer =
+document.getElementById('audioPlayer');
 
-  if(prompt.trim() === '') {
-    alert('Escreva uma descrição da música.');
-    return;
-  }
+if(prompt.trim() === ''){
 
-  loading.style.display = 'block';
-  result.style.display = 'none';
+alert('Escreva uma descrição da música.');
 
-  const generatedLyrics = `
+return;
+
+}
+
+loading.style.display = 'block';
+
+result.style.display = 'none';
+
+const generatedLyrics = `
 🎵 TÍTULO: Noites de Luanda
+
+${prompt}
 
 Na ilha dançamos devagar,
 Luzes brilham sobre o mar,
 Teu olhar faz o tempo parar,
 Luanda inteira vai cantar.
+
+No semba do coração,
+Batidas levam emoção,
+Afro Beat na vibração,
+És minha inspiração.
 `;
 
-  setTimeout(async () => {
+setTimeout(async ()=>{
 
-    loading.style.display = 'none';
+loading.style.display = 'none';
 
-    result.style.display = 'block';
+result.style.display = 'block';
 
-    lyrics.innerText = generatedLyrics;
+lyrics.innerText = generatedLyrics;
 
-    try {
+try{
 
-      const voiceResponse = await fetch(
-        'https://api.elevenlabs.io/v1/text-to-speech/EXAVITQu4vr4xnSDxMaL',
-        {
-          method: 'POST',
+const response = await fetch(
+'https://api.elevenlabs.io/v1/text-to-speech/EXAVITQu4vr4xnSDxMaL',
+{
+method:'POST',
 
-          headers: {
-            'Content-Type': 'application/json',
-            'xi-api-key': 'sk_8fe90f73968004c954ae9d48fdfc7fdf59f7717c03a21fc5'
-          },
+headers:{
+'Content-Type':'application/json',
+'xi-api-key':'COLOCA_AQUI_SUA_CHAVE_ELEVENLABS'
+},
 
-          body: JSON.stringify({
-            text: generatedLyrics,
-            model_id: 'eleven_multilingual_v2'
-          })
-        }
-      );
+body:JSON.stringify({
+text:generatedLyrics,
+model_id:'eleven_multilingual_v2'
+})
 
-      const audioBlob = await voiceResponse.blob();
+}
+);
 
-      const audioUrl = URL.createObjectURL(audioBlob);
+const audioBlob =
+await response.blob();
 
-      audioPlayer.src = audioUrl;
+const audioUrl =
+URL.createObjectURL(audioBlob);
 
-      audioPlayer.play();
+audioPlayer.src = audioUrl;
 
-    } catch(error) {
+audioPlayer.play();
 
-      console.log(error);
+}catch(error){
 
-      alert('Erro ao gerar áudio IA.');
+console.log(error);
 
-    }
+alert('Erro ao gerar áudio.');
 
-  }, 3000);
+}
+
+},3000);
 
 }
 
 </script>
+
+</body>
+</html>
+```
+
