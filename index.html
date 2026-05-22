@@ -294,7 +294,7 @@
 
   <script>
 
-    function generateMusic() {
+     async function generateMusic() {
 
       const prompt = document.getElementById('prompt').value;
       const loading = document.getElementById('loading');
@@ -326,7 +326,7 @@
         }
       }, 1000);
 
-      setTimeout(() => {
+        setTimeout(() => {
 
         clearInterval(interval);
 
@@ -360,6 +360,9 @@ audioPlayer.src = audioUrl;
 
 audioPlayer.play();
 
+}, 4000);
+
+}
 
 
 
