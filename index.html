@@ -304,7 +304,17 @@ content:`Cria uma letra musical africana baseada nisso: ${prompt}`
 const openaiData =
 await openaiResponse.json();
 
-const generatedLyrics =
+const generatedLyrics = `
+🎵 TÍTULO: Música IA
+
+${prompt}
+
+Verso 1:
+Esta música foi criada com Inteligência Artificial.
+
+Refrão:
+Angola Music AI no comando.
+`;
 openaiData.choices[0].message.content;
 
 setTimeout(async ()=>{
